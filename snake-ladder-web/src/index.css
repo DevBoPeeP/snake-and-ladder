@@ -1,0 +1,202 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background-color: black;
+}
+
+.cont {
+  display: grid;
+  width: 600px;
+  grid-template-columns: repeat(10, 1fr);
+  margin: 0px 0 0px 0;
+}
+
+.cont div {
+  width: 60px;
+  height: 60px;
+  border: 0.2px solid black;
+}
+
+#p1,
+#p2 {
+  width: 50px;
+  height: 50px;
+  border-radius: 100px;
+  background-color: rgb(236, 82, 82);
+  position: relative;
+  border: 3px solid black;
+
+  /* position: absolute; */
+}
+
+#p1 {
+  position: relative;
+  top: 0px;
+  transition: all linear 0.5s;
+  /* top: 0; */
+  left: -62px;
+  z-index: 2;
+}
+
+#p2 {
+  z-index: 2;
+  position: relative;
+  top: -55px;
+  left: -62px;
+  transition: all linear 0.5s;
+  background-color: rgb(243, 181, 46);
+}
+
+img {
+  position: relative;
+  top: -683px;
+  left: 1px;
+  /* z-index: -1; */
+  margin: 0;
+  width: 620px;
+  height: 620px;
+}
+#diceCont {
+  display: grid;
+  place-items: center;
+  position: absolute;
+  top: 200px;
+  left: 120px;
+  font-size: 2rem;
+  z-index: 99;
+}
+
+@media (max-width: 1250px) {
+  #diceCont {
+    display: flex;
+    place-items: none;
+    top: 92vh;
+    left: 36vw;
+    border: 2px solid red;
+  }
+}
+@media (max-width: 1250px) {
+  #diceCont {
+    display: flex;
+    place-items: none;
+    top: 99vh;
+    left: 10vw;
+    /* border: 2px solid red; */
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+    to bottom right,
+    rgba(0, 0, 0, 0.6),
+    rgba(0, 0, 0, 0.8)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.4s ease-in;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 400px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  animation: scaleIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+button {
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  background: linear-gradient(to right, #4caf50, #45a049);
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+input[type="text"] {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  font-size: 0.95rem;
+}
+
+input[type="text"]:focus {
+  border-color: #4caf50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+@keyframes roll {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.dice {
+  width: 80px;
+  height: 80px;
+  font-size: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  margin-top: 10px;
+  animation: roll 0.6s ease-in-out;
+}
