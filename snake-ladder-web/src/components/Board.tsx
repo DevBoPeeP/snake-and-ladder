@@ -51,7 +51,7 @@ const Board = ({
       // Get current player ID from game state
       const currentPlayerId = currentGameState.players[currentPlayerIndex].id;
 
-      // Make move API call
+      // Make move API call - this will now include the dice roll from backend
       const moveResponse = await makeMove(gameId, currentPlayerId);
 
       // Update game state

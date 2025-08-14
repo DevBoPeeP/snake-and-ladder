@@ -5,20 +5,20 @@ const diceFaces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
 interface DiceProps {
   onRoll: (value: number) => void;
   diceValue: number;
+  nextPlayerName: string;
 }
-
-const Dice = ({ onRoll, diceValue = 0 }: DiceProps): React.JSX.Element => {
-  // const Dice = (): React.JSX.Element => {
-  // const [diceValue, setDiceValue] = useState(0);
+const Dice = ({
+  onRoll,
+  diceValue = 0,
+  nextPlayerName,
+}: DiceProps): React.JSX.Element => {
   const [rolling, setRolling] = useState(false);
 
   const rollDice = () => {
     setRolling(true);
-    const roll = Math.floor(Math.random() * 6);
     setTimeout(() => {
-      // setDiceValue(roll);
       setRolling(false);
-      onRoll(roll + 1); // Send value (1-6) to parent for movement
+      onRoll(0); // We don't need the value here anymore, backend will handle it
     }, 500);
   };
 
@@ -28,11 +28,13 @@ const Dice = ({ onRoll, diceValue = 0 }: DiceProps): React.JSX.Element => {
         className={`dice${rolling ? " rolling" : ""}`}
         style={{ color: "black" }}
       >
-        {diceFaces[diceValue]}
+        {diceFaces[diceValue - 1] || "⚀"} {/* Show the value from backend */}
       </div>
+      <p style={{ fontSize: "1.5rem", color: "White" }}>
+        {nextPlayerName} 's Turn:
+      </p>
       <button onClick={rollDice}>Roll Dice</button>
     </div>
   );
 };
-
 export default Dice;

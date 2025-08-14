@@ -23,22 +23,19 @@ const DicePanel = ({
 
   return (
     <div id="diceCont">
-      <p id="tog"> {currentPlayer} Turn:</p>
-      <p id="dice">{currentPlayerState.diceValue}</p>
+      <p id="tog"> {currentPlayer} Played:</p>
+      <p id="dice">{currentPlayerState.diceValue || 0}</p>
       <Dice
         diceValue={currentPlayerState.diceValue}
-        onRoll={(value) => {
-          // const diceElement = document.getElementById("dice");
-          // if (diceElement) {
-          //   diceElement.innerText = value.toString();
-          // }
-          // Call the callback to switch to next player after roll
+        nextPlayerName={
+          players[(currentPlayerIndex + 1) % players.length] || "Player"
+        }
+        onRoll={() => {
           if (onPlayerTurn) {
-            onPlayerTurn(value);
+            onPlayerTurn(0); // Value will come from backend
           }
         }}
       />
-      <div></div>
     </div>
   );
 };
