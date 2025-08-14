@@ -12,6 +12,7 @@ body {
 
 .cont {
   display: grid;
+  background-color: tomato;
   width: 600px;
   grid-template-columns: repeat(10, 1fr);
   margin: 0px 0 0px 0;
@@ -23,45 +24,31 @@ body {
   border: 0.2px solid black;
 }
 
-#p1,
-#p2 {
+.player-token {
   width: 50px;
   height: 50px;
-  border-radius: 100px;
-  background-color: rgb(236, 82, 82);
-  position: relative;
-  border: 3px solid black;
-
-  /* position: absolute; */
-}
-
-#p1 {
-  position: relative;
-  top: 0px;
-  transition: all linear 0.5s;
-  /* top: 0; */
-  left: -62px;
-  z-index: 2;
-}
-
-#p2 {
-  z-index: 2;
-  position: relative;
-  top: -55px;
-  left: -62px;
-  transition: all linear 0.5s;
-  background-color: rgb(243, 181, 46);
+  border-radius: 50%;
+  position: absolute;
+  top: 75%;
+  left: 30%;
+  transition: transform 0.5s ease;
+  transform: translate(0, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  z-index: 10;
 }
 
 img {
   position: relative;
-  top: -683px;
-  left: 1px;
-  /* z-index: -1; */
+  top: -620px;
   margin: 0;
   width: 620px;
   height: 620px;
 }
+
 #diceCont {
   display: grid;
   place-items: center;

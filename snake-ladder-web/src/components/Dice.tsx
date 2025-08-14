@@ -4,17 +4,19 @@ const diceFaces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
 
 interface DiceProps {
   onRoll: (value: number) => void;
+  diceValue: number;
 }
 
-const Dice = ({ onRoll }: DiceProps): React.JSX.Element => {
-  const [diceValue, setDiceValue] = useState(0);
+const Dice = ({ onRoll, diceValue = 0 }: DiceProps): React.JSX.Element => {
+  // const Dice = (): React.JSX.Element => {
+  // const [diceValue, setDiceValue] = useState(0);
   const [rolling, setRolling] = useState(false);
 
   const rollDice = () => {
     setRolling(true);
     const roll = Math.floor(Math.random() * 6);
     setTimeout(() => {
-      setDiceValue(roll);
+      // setDiceValue(roll);
       setRolling(false);
       onRoll(roll + 1); // Send value (1-6) to parent for movement
     }, 500);
