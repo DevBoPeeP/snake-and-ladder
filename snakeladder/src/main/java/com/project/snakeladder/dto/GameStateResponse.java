@@ -30,7 +30,4 @@ public class GameStateResponse {
 
     public String getMessage() { return message; }
     public void setMessage(String message) { this.message = message; }
-
-    public void setWinnerName(String name) {
-    }
 }

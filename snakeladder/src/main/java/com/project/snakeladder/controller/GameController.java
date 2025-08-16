@@ -16,11 +16,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/games")
-@CrossOrigin(origins = "*")
 public class GameController {
 
     @Autowired
-    private GameService gameService;
+    private final GameService gameService;
+
+    public GameController(GameService gameService) {
+        this.gameService = gameService;
+    }
 
     @PostMapping
     public ResponseEntity<GameStateResponse> createGame(@Valid @RequestBody CreateGameRequest request) {
@@ -32,19 +35,13 @@ public class GameController {
         }
     }
 
-    @PostMapping("/move")
+    @PostMapping(path = "/move")
     public ResponseEntity<MoveResponse> makeMove(@RequestBody MoveRequest request) {
-        try {
-            MoveResponse response = gameService.makeMove(request);
-            return ResponseEntity.ok(response);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        } catch (IllegalStateException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        MoveResponse response = gameService.makeMove(request);
+        return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/{gameId}")
+    @GetMapping( path="/{gameId}")
     public ResponseEntity<GameStateResponse> getGameState(@PathVariable Long gameId) {
         try {
             GameStateResponse response = gameService.getGameState(gameId);
@@ -60,7 +57,7 @@ public class GameController {
         return ResponseEntity.ok(games);
     }
 
-    @GetMapping("/active")
+    @GetMapping(path="/active")
     public ResponseEntity<List<GameStateResponse>> getActiveGames() {
         List<GameStateResponse> activeGames = gameService.getActiveGames();
         return ResponseEntity.ok(activeGames);

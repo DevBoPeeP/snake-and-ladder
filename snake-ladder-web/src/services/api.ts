@@ -21,26 +21,19 @@ export const createGame = async (playerNames: string[]) => {
   }
 };
 
-export const makeMove = async (gameId: number, playerId: number) => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/move`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ gameId, playerId }),
-    });
+export async function makeMove(gameId: number, playerId: number) {
+  const res = await fetch(`${API_BASE_URL}/move`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ gameId, playerId }), // matches MoveRequest fields
+  });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error making move:", error);
-    throw error;
+  if (!res.ok) {
+    throw new Error(`HTTP error! status: ${res.status}`);
   }
-};
+
+  return await res.json();
+}
 
 export const getGameState = async (gameId: number) => {
   try {

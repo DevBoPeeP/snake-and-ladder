@@ -2,6 +2,15 @@ import React, { useState, useEffect } from "react";
 import DicePanel from "./DicePanel";
 import { makeMove, getGameState } from "../services/api";
 
+// Define the Player type
+interface Player {
+  id: number;
+  name: string;
+  color: string;
+  position: number;
+  diceValue?: number;
+}
+
 interface BoardProps {
   players: string[];
   gameId: number;
@@ -51,21 +60,35 @@ const Board = ({
       // Get current player ID from game state
       const currentPlayerId = currentGameState.players[currentPlayerIndex].id;
 
-      // Make move API call - this will now include the dice roll from backend
+      // Make move API call (backend rolls dice and updates game)
       const moveResponse = await makeMove(gameId, currentPlayerId);
 
-      // Update game state
+      // Store the rolled dice value so DicePanel/Dice can display it
+      setCurrentGameState((prev: any) => ({
+        ...prev,
+        players: prev.players.map((p: Player, i: number) =>
+          i === currentPlayerIndex
+            ? { ...p, diceValue: moveResponse.diceValue }
+            : p
+        ),
+      }));
+
+      // Fetch updated game state from backend
       const updatedGameState = await getGameState(gameId);
       console.log("Updated game state:", updatedGameState);
-      setCurrentGameState(updatedGameState);
 
-      // Move to next player if game isn't won
-      if (!moveResponse.gameWon) {
-        setCurrentPlayerIndex((prevIndex) => (prevIndex + 1) % players.length);
-      }
+      // Update full game state
+      setCurrentGameState(updatedGameState);
 
       // Update player positions on the board UI
       updatePlayerPositions(updatedGameState);
+
+      // Move to next player if game isn't won
+      if (!moveResponse.gameWon) {
+        setCurrentPlayerIndex(
+          (prevIndex) => (prevIndex + 1) % updatedGameState.players.length
+        );
+      }
     } catch (error) {
       console.error("Error making move:", error);
     }

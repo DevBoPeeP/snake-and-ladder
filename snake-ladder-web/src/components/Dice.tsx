@@ -3,10 +3,11 @@ import React, { useState } from "react";
 const diceFaces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
 
 interface DiceProps {
-  onRoll: (value: number) => void;
+  onRoll: () => void; // No need to send value — backend decides
   diceValue: number;
   nextPlayerName: string;
 }
+
 const Dice = ({
   onRoll,
   diceValue = 0,
@@ -16,9 +17,10 @@ const Dice = ({
 
   const rollDice = () => {
     setRolling(true);
+
     setTimeout(() => {
       setRolling(false);
-      onRoll(0); // We don't need the value here anymore, backend will handle it
+      onRoll(); // Just signal parent
     }, 500);
   };
 
@@ -26,15 +28,23 @@ const Dice = ({
     <div style={{ display: "grid", gap: "0.5rem", placeItems: "center" }}>
       <div
         className={`dice${rolling ? " rolling" : ""}`}
-        style={{ color: "black" }}
+        style={{ color: "black", fontSize: "2.5rem" }}
       >
-        {diceFaces[diceValue - 1] || "⚀"} {/* Show the value from backend */}
+        {diceFaces[diceValue - 1] || diceFaces[0]}
       </div>
-      <p style={{ fontSize: "1.5rem", color: "White" }}>
-        {nextPlayerName} 's Turn:
+      <p
+        style={{
+          padding: "0.5rem",
+          marginTop: "0.5rem",
+          fontSize: "1.5rem",
+          color: "white",
+        }}
+      >
+        {nextPlayerName}'s Turn:
       </p>
       <button onClick={rollDice}>Roll Dice</button>
     </div>
   );
 };
+
 export default Dice;

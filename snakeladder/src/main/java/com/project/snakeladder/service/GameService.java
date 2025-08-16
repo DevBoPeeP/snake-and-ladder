@@ -191,9 +191,9 @@ public class GameService {
             Optional<Player> winner = game.getPlayers().stream()
                     .filter(player -> player.getId().equals(game.getWinnerId()))
                     .findFirst();
-            if (winner.isPresent()) {
-                response.setWinnerName(winner.get().getName());
-            }
+//            if (winner.isPresent()) {
+////                response.setWinnerName(winner.get().getName());
+//            }
         }
 
         return response;

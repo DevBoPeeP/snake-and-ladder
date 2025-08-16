@@ -8,8 +8,10 @@ const PlayerSetup = ({ onPlayersReady }: Props): React.JSX.Element => {
   const [names, setNames] = useState<string[]>(["", ""]);
 
   const updateName = (index: number, value: string) => {
+    // Only allow letters A-Z or a-z
+    const lettersOnly = value.replace(/[^A-Za-z]/g, "");
     const updated = [...names];
-    updated[index] = value;
+    updated[index] = lettersOnly;
     setNames(updated);
   };
 
@@ -25,7 +27,7 @@ const PlayerSetup = ({ onPlayersReady }: Props): React.JSX.Element => {
     if (names.every((name) => name.trim() !== "")) {
       onPlayersReady(names);
     } else {
-      alert("Please enter all player names");
+      alert("Please enter all player names (letters only, no spaces)");
     }
   };
 
