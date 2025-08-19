@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Board from "./components/Board";
 import PlayerSetup from "./components/PlayerSetup";
 import RulesModal from "./components/Rules";
+import { WinnerModal } from "./components/WinnerModal";
 import { createGame } from "./services/api";
 
 function App(): React.JSX.Element {
@@ -33,7 +34,7 @@ function App(): React.JSX.Element {
         placeItems: "center",
         minHeight: "100vh",
         color: "white",
-        margin: "5rem",
+        margin: "1rem",
       }}
     >
       <h1>Snakes and Ladders</h1>
@@ -53,6 +54,19 @@ function App(): React.JSX.Element {
       )}
       {players.length >= 1 && gameId && (
         <Board players={players} gameId={gameId} gameState={gameState} />
+      )}
+      {gameState?.status === "FINISHED" && (
+        <WinnerModal
+          winner={
+            gameState.players.find(
+              (p: { id: any }) => p.id === gameState.currentPlayerId
+            )!
+          }
+          onRestart={() => {
+            console.log("[WinnerModal] Restarting game");
+            setGameState(null);
+          }}
+        />
       )}
     </main>
   );

@@ -5,13 +5,14 @@ const diceFaces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
 interface DiceProps {
   onRoll: () => void; // No need to send value — backend decides
   diceValue: number;
-  nextPlayerName: string;
+
+  currentPlayerName: string;
 }
 
 const Dice = ({
   onRoll,
   diceValue = 0,
-  nextPlayerName,
+  currentPlayerName,
 }: DiceProps): React.JSX.Element => {
   const [rolling, setRolling] = useState(false);
 
@@ -40,7 +41,7 @@ const Dice = ({
           color: "white",
         }}
       >
-        {nextPlayerName}'s Turn:
+        {currentPlayerName}'s Turn:
       </p>
       <button onClick={rollDice}>Roll Dice</button>
     </div>

@@ -40,7 +40,6 @@ public class GameService {
         // Create new game
         Game game = new Game();
         game = gameRepository.save(game);
-
         // Create players
         for (int i = 0; i < playerNames.size(); i++) {
             String playerName = playerNames.get(i);
@@ -48,10 +47,14 @@ public class GameService {
                 throw new IllegalArgumentException("Player name cannot be empty");
             }
 
+
             Player player = new Player(playerName.trim(), COLORS[i], game);
+
             game.getPlayers().add(player);
+
             // Save each player to the repository
             playerRepository.save(player);
+
         }
 
         game = gameRepository.save(game);
@@ -68,7 +71,7 @@ public class GameService {
         Game game = gameOpt.get();
 
         // Check if game is still active
-        if (game.getStatus() != Game.GameStatus.IN_PROGRESS) {
+        if (game.getStatus() != Game.GameStatus.ACTIVE) {
             throw new IllegalArgumentException("Game is not in progress");
         }
 
@@ -178,12 +181,12 @@ public class GameService {
             response.setCurrentPlayerName(currentPlayer.getName());
         }
 
-        List<PlayerInfo> playerInfos = game.getPlayers().stream()
+        List<PlayerInfo> playerInfo = game.getPlayers().stream()
                 .map(player -> new PlayerInfo(player.getId(), player.getName(),
                         player.getColor(), player.getPosition()))
                 .collect(Collectors.toList());
 
-        response.setPlayers(playerInfos);
+        response.setPlayers(playerInfo);
         response.setMessage(message);
 
         // Add winner information if game is finished
@@ -191,9 +194,6 @@ public class GameService {
             Optional<Player> winner = game.getPlayers().stream()
                     .filter(player -> player.getId().equals(game.getWinnerId()))
                     .findFirst();
-//            if (winner.isPresent()) {
-////                response.setWinnerName(winner.get().getName());
-//            }
         }
 
         return response;

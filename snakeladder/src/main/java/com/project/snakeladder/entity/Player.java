@@ -9,7 +9,7 @@ import lombok.Setter;
 @Table(name = "players")
 public class Player {
 
-    @Setter
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,15 +18,15 @@ public class Player {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Setter
+
     @Column(name = "color")
     private String color;
 
-    @Setter
+
     @Column(name = "position")
     private int position;
 
-    @Setter
+
     @ManyToOne
     @JoinColumn(name = "game_id")
     @JsonIgnore
@@ -38,9 +38,6 @@ public class Player {
     }
 
     public Player(String name, String color) {
-        if (name == null || !name.matches("^[A-Za-z]+$")) {
-            throw new IllegalArgumentException("Name must contain only letters with no spaces or special characters.");
-        }
         this.name = name;
         this.color = color;
         this.position = 0; // Default position

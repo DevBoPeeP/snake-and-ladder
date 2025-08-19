@@ -15,15 +15,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/games")
+@RequestMapping("/api/v1/games")
+@CrossOrigin(origins = "*")
 public class GameController {
 
     @Autowired
-    private final GameService gameService;
-
-    public GameController(GameService gameService) {
-        this.gameService = gameService;
-    }
+    private GameService gameService;
 
     @PostMapping
     public ResponseEntity<GameStateResponse> createGame(@Valid @RequestBody CreateGameRequest request) {
@@ -35,13 +32,23 @@ public class GameController {
         }
     }
 
-    @PostMapping(path = "/move")
+
+
+    @PostMapping(path="/move")
     public ResponseEntity<MoveResponse> makeMove(@RequestBody MoveRequest request) {
-        MoveResponse response = gameService.makeMove(request);
-        return ResponseEntity.ok(response);
+        try {
+            System.out.println("Received MoveRequest: " +  request.getGameId().toString() + "  " + request.getPlayerId().toString());
+            MoveResponse response = gameService.makeMove(request);
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error in makeMove: " + e.getMessage());
+            return ResponseEntity.notFound().build();
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
-    @GetMapping( path="/{gameId}")
+    @GetMapping(path="/{gameId}")
     public ResponseEntity<GameStateResponse> getGameState(@PathVariable Long gameId) {
         try {
             GameStateResponse response = gameService.getGameState(gameId);

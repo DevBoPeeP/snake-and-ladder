@@ -108,6 +108,6 @@ public class Game {
     }
 
     public enum GameStatus {
-        ACTIVE, IN_PROGRESS, FINISHED
+        ACTIVE, FINISHED
     }
 }

@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:9187/snake-ladder-service/v1/games";
+const API_BASE_URL = "http://localhost:9187/snake-ladder-service/api/v1/games";
 
 export const createGame = async (playerNames: string[]) => {
   try {
@@ -6,7 +6,9 @@ export const createGame = async (playerNames: string[]) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
       },
+
       body: JSON.stringify({ playerNames }),
     });
 
